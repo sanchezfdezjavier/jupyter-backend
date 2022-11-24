@@ -1,6 +1,13 @@
 # See LICENSE file for licensing details.
 
+"""Integration tests."""
 
-class TestIntegration:
+import unittest
+
+
+class TestIntegration(unittest.TestCase):
+    def setUp(self):
+        pass
+
     def test_1(self):
         pass

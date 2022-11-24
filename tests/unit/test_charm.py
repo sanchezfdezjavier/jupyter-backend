@@ -1,7 +1,7 @@
 # See LICENSE file for licensing details.
 
 
-"""Test main module."""
+"""Unit tests."""
 
 import unittest
 
