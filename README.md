@@ -58,4 +58,4 @@ tox -e integration
 
 ## GitHub CI
 
-On pull request to your repo, the full suit of tests will be ran.
+Tests will automatically run on Pull Request.
