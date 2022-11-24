@@ -1,5 +1,7 @@
 # Python Development Environment
 
+![Tests](https://github.com/sanchezfdezjavier/python-testing-dev-env/actions/workflows/tests.yml/badge.svg)
+
 ## Usage
 
 ### Set up a Python virtual environment
@@ -24,32 +26,36 @@ pip3 install tox
 
 ### Run your tests
 
-For running the whole suit:
+For running the **full suit**:
 
 ```bash
 tox
 ```
 
-For running linting analysis
+For running **linting** analysis
 
 ```bash
 tox -e lint
 ```
 
-For running static analysis
+For running **static** analysis
 
 ```bash
 tox -e static
 ```
 
-For running unit tests
+For running **unit** tests
 
 ```bash
 tox -e unit
 ```
 
-For running integration tests
+For running **integration** tests
 
 ```bash
 tox -e integration
 ```
+
+## GitHub CI
+
+On pull request to your repo, the full suit of tests will be ran.
