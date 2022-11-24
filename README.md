@@ -2,6 +2,10 @@
 
 ![Tests](https://github.com/sanchezfdezjavier/python-testing-dev-env/actions/workflows/tests.yml/badge.svg)
 
+## Description
+
+Python development environment with testing setup ready to use!
+
 ## Usage
 
 ### Set up a Python virtual environment
@@ -18,7 +22,7 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-1. Install tox with pip
+3. Install tox with pip
 
 ```bash
 pip3 install tox
