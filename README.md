@@ -1,65 +1,53 @@
-# Python Development Environment
+# Jupyter Backend API
 
-![Tests](https://github.com/sanchezfdezjavier/python-testing-dev-env/actions/workflows/tests.yml/badge.svg)
+This is the API for a lightweight version of Jupyter notebooks built using FastAPI and MongoDB. It allows users to create, read, update, and delete Python notebooks and execute Python code within these notebooks. It's designed to be simple and intuitive, making it easy for anyone to run Python code in an interactive manner ✨
 
-## Description
 
-Python development environment with testing setup ready to use!
+## Contributing
 
-## Usage
+You can use the environments created by `tox` for development:
 
-### Set up a Python virtual environment
-
-1. Create the virtual environment
-
-```bash
-virtualenv venv
+```shell
+tox --notest -e unit
+source .tox/unit/bin/activate
 ```
 
-2. Source the your new virtual environment
+### Create a `.env` file with the database connection string under the `src` directory
 
-```bash
-source venv/bin/activate
+```env
+MONGO_CONNECTION_STRING=<your db connection string>
 ```
 
-3. Install tox with pip
+### Start the development server
+
+Go into the `src` directory
 
 ```bash
-pip3 install tox
+cd src
 ```
-
-### Run your tests
-
-For running the **full suit**:
 
 ```bash
-tox
+uvicorn main:app --reload
 ```
 
-For running **linting** analysis
+### Swagger UI
 
-```bash
-tox -e lint
+You can acccess the Swagger UI by going to http://localhost:8000/docs
+
+![API Preview](api-preview.png)
+
+### Testing
+
+This project uses `tox` for managing test environments. There are some pre-configured environments
+that can be used for linting and formatting code when you're preparing contributions to the charm:
+
+```shell
+tox -e lint          # code style
+tox -e static        # static analysis
+tox -e unit          # unit tests
+tox -e integration   # integration tests
 ```
 
-For running **static** analysis
-
-```bash
-tox -e static
-```
-
-For running **unit** tests
-
-```bash
-tox -e unit
-```
-
-For running **integration** tests
-
-```bash
-tox -e integration
-```
-
-## GitHub CI
+### GitHub CI
 
 Tests will automatically run on Pull Request.

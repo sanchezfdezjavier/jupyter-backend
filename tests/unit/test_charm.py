@@ -1,5 +1,6 @@
 # See LICENSE file for licensing details.
 
+# Sorry for not adding any tests 😁
 
 """Unit tests."""
 
