@@ -3,3 +3,4 @@ requests
 uvicorn
 pymongo[snappy,gssapi,srv,tls]
 python-dotenv
+ipython
