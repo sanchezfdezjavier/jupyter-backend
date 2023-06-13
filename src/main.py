@@ -14,6 +14,8 @@ from IPython.core.interactiveshell import InteractiveShell
 from pydantic import BaseModel
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from contextlib import redirect_stdout
+import io
 
 DATABASE_NAME = "Notebooks"
 COLLECTION_NAME = "User Notebooks"
@@ -94,17 +96,17 @@ def document_to_dict(document) -> dict:
 
 
 @app.get("/")
-def read_root() -> dict:
+def connectivity_test() -> dict:
     """Return a simple message.
 
     Returns:
         dict: A simple message.
     """
-    return {"👋 Hello": "Jupyter clone!"}
+    return {"👋 Hello": "I'm the Jupyter API!"}
 
 
 @app.get("/ping-db")
-def ping() -> dict:
+def ping_db() -> dict:
     """Ping the database.
 
     Returns:
@@ -306,8 +308,13 @@ def execute_and_update_code(notebook_id: str, cell_id: str, body: dict) -> dict:
     code = body.get("source", "")
     try:
         shell = context_manager.get_context(notebook_id) or context_manager.create_context(notebook_id)  # noqa E501
-        result = shell.run_cell(code)
-        cell = {"id": cell_id, "source": code, "outputs": str(result)}
+
+        stout = io.StringIO()
+        with redirect_stdout(stout):
+            result = shell.run_cell(code).result
+
+        printed_output = stout.getvalue()
+        cell = {"id": cell_id, "source": code, "outputs": str(printed_output)}
 
         document = collection.find_one({"_id": ObjectId(notebook_id), "notebook.cells.id": cell_id})  # noqa E501
         if document is None:
@@ -324,7 +331,7 @@ def execute_and_update_code(notebook_id: str, cell_id: str, body: dict) -> dict:
                 {
                     "$set": {
                         "notebook.cells.$.source": code,
-                        "notebook.cells.$.outputs": str(result),
+                        "notebook.cells.$.outputs": str(printed_output),
                         "updated_at": datetime.now(),
                     }
                 },
@@ -332,6 +339,6 @@ def execute_and_update_code(notebook_id: str, cell_id: str, body: dict) -> dict:
             if update_result.matched_count < 1:
                 return {"output": None, "error": "Failed to update cell"}
 
-        return {"output": str(result), "error": None}
+        return {"output": str(printed_output), "error": None}
     except Exception as e:
         return {"output": None, "error": str(e)}
